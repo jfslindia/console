@@ -1,0 +1,276 @@
+/* Add here all your CSS customizations */
+
+.box {
+	width: 40%;
+	margin: 0 auto;
+	background: rgba(255, 255, 255, 0.2);
+	padding: 35px;
+	border: 2px solid #fff;
+	border-radius: 20px/50px;
+	background-clip: padding-box;
+	text-align: center;
+}
+
+.button {
+	font-size: 1em;
+	padding: 10px;
+	color: #fff;
+	border: 2px solid #06D85F;
+	border-radius: 20px/50px;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.3s ease-out;
+}
+
+.button:hover {
+	background: #06D85F;
+}
+select {
+	width: 100%;
+}
+.overlay {
+	position: fixed;
+	top: 50px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.7);
+	transition: opacity 500ms;
+	visibility: hidden;
+	opacity: 0;
+}
+
+.overlay:target {
+	visibility: visible;
+	opacity: 1;
+}
+
+.popup {
+	margin: 70px auto;
+	padding: 20px;
+	background: #fff;
+	border-radius: 5px;
+	width: 30%;
+	position: relative;
+	transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+	margin-top: 0;
+	color: #333;
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+	position: absolute;
+	top: 20px;
+	right: 30px;
+	transition: all 200ms;
+	font-size: 30px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #333;
+}
+
+.popup .close:hover {
+	color: #06D85F;
+}
+
+.popup .content {
+	max-height: 30%;
+	overflow: auto;
+}
+
+/* Styles for the drop-down. Feel free to change the styles to suit your website. :-) */
+
+.cb-dropdown-wrap {
+	max-height: 80px; /* At most, around 3/4 visible items. */
+	position: relative;
+	height: 19px;
+	z-index: 0;
+}
+
+.cb-dropdown,
+.cb-dropdown li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.cb-dropdown {
+	position: absolute;
+	z-index: 1;
+	width: 100px;
+	height: 100%;
+	overflow: hidden;
+	background: #fff;
+	border: 1px solid #888;
+}
+
+/* For selected filter. */
+.active .cb-dropdown {
+	background: pink;
+}
+
+.cb-dropdown-wrap:hover .cb-dropdown {
+	height: 80px;
+	overflow: auto;
+	transition: 0.2s height ease-in-out;
+}
+
+/* For selected items. */
+.cb-dropdown li.active {
+	background: #ff0;
+}
+
+.cb-dropdown li label {
+	display: block;
+	position: relative;
+	cursor: pointer;
+	line-height: 19px; /* Match height of .cb-dropdown-wrap */
+}
+
+.cb-dropdown li label > input {
+	position: absolute;
+	right: 0;
+	top: 2px;
+	width: 26px;
+}
+
+.cb-dropdown li label > span {
+	display: block;
+	margin-left: 3px;
+	margin-right: 20px; /* At least, width of the checkbox. */
+	font-family: sans-serif;
+	font-size: 8px;
+	font-weight: normal;
+	text-align: left;
+}
+
+/* This fixes the vertical aligning of the sorting icon. */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+	background-position: 100% 10px;
+}
+
+
+@media print {
+	body * {
+		visibility: hidden;
+	}
+	#section-to-print, #section-to-print * {
+		visibility: visible;
+	}
+	#section-to-print {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+}
+
+/* Coupon Screens - Wrappers */
+.body-coupon {
+	padding: 0 15px;
+	width: 100%;
+}
+
+.body-coupon .center-sign {
+	display: table-cell;
+	padding-top: 20px;
+	vertical-align: middle;
+}
+
+.body-coupon .card-sign {
+	background: transparent;
+}
+
+.body-coupon .card-sign .card-title-sign .title {
+	background-color: #CCC;
+	border-radius: 5px 5px 0 0;
+	color: #FFF;
+	display: inline-block;
+	font-size: 12px;
+	font-size: 0.75rem;
+	padding: 13px 17px;
+	vertical-align: bottom;
+}
+
+.body-coupon .card-sign .card-body {
+	background: #FFF;
+	border-top: 5px solid #CCC;
+	border-radius: 5px 0 5px 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	padding: 33px 33px 15px;
+}
+
+/* Sign Screens - Elements */
+.body-coupon .checkbox-custom {
+	margin-top: 8px;
+}
+
+.body-coupon .line-thru {
+	display: block;
+	font-size: 12px;
+	font-size: 0.75rem;
+	position: relative;
+}
+
+.body-coupon .line-thru span {
+	color: #CCC;
+	position: relative;
+	z-index: 3;
+}
+
+.body-coupon .line-thru:before {
+	background-color: #FFF;
+	content: '';
+	height: 10px;
+	left: 50%;
+	position: absolute;
+	margin: -5px 0 0 -20px;
+	top: 50%;
+	width: 40px;
+	z-index: 2;
+}
+
+.body-coupon .line-thru:after {
+	border-bottom: 1px solid #DADADA;
+	content: '';
+	display: block;
+	left: 10%;
+	position: absolute;
+	top: 47%;
+	width: 81%;
+	z-index: 1;
+}
+
+.body-coupon .card-sign .card-title-sign .title {
+	background-color: #0088cc;
+}
+
+.body-coupon .card-sign .card-title-sign .title {
+	background-color: #0088cc;
+	border-radius: 5px 5px 0 0;
+	color: #FFF;
+	display: inline-block;
+	font-size: 12px;
+	font-size: 0.75rem;
+	padding:5px;
+	vertical-align: bottom;
+}
+
+.body-coupon .card-sign .card-body {
+	background: #FFF;
+	border-top: 5px solid #0088cc;
+	border-radius: 5px 0 5px 5px;
+	-webkit-box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+	padding: 33px 33px 15px;
+}
+.tabledit-input {
+	width: 100px;
+}

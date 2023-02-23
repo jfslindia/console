@@ -1,0 +1,52 @@
+        html,body{
+            color: black;
+            height: 100%;
+            margin: 0;
+        }
+
+        .main_content {
+            min-height: 100%;
+            margin: 0 auto -50px;
+        }
+
+
+        .uk-child-width-1-10>* {
+            width: calc(100% * 1 / 10.001);
+        }
+
+        .main_content_bg_img{
+            background-image: url(../../../assets/images/bg.png);
+            background-repeat: no-repeat;
+            background-position-y: bottom;
+            background-size: contain;
+        }
+
+        .border_top_image{
+            background-image: url(../../../assets/images/bg.png);
+            position: absolute;
+            z-index: -1;
+            width: -webkit-fill-available;
+            height: -webkit-fill-available;
+            width: -moz-fill-available;
+            height: -moz-fill-available;
+            background-repeat: no-repeat;
+            -webkit-transform: rotate(30deg);
+            -moz-transform: rotate(30deg);
+            transform: rotate(180deg);
+            background-position: bottom;background-size: contain;
+        }
+
+        .uk-link:hover, a:hover{
+            text-decoration: none;
+        }
+
+        body > div.blockUI.blockMsg.blockPage{
+            border:none !important;
+            background-color:transparent !important;
+
+
+        }
+
+        .white_color_text{
+            color: white !important;
+        }

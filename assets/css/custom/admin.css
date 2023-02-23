@@ -1,0 +1,210 @@
+
+html,body{
+    background: #f1f3f4 !important;
+    height:100% !important;
+}
+
+
+[ng\:cloak],[ng-cloak], .ng-cloak{
+    display: none;
+}
+
+.chart-grid{
+    margin: 0;
+}
+.chart-wrapper{
+
+    margin:auto;
+
+}
+
+#gcmids {
+    height: auto;
+}
+
+#progressElem{
+
+    left: 50%;
+    top: 50%;
+    z-index: 100;
+}
+
+#offcanvas{
+
+    background: #000000;
+    cursor: pointer;
+
+}
+#offcanvas td{
+    color: #ffffff;
+}
+
+#offcanvas td:hover{
+    background: #39f;
+}
+
+#offcanvas-close{
+
+    background: #000000;
+}
+
+#offcanvas-usage > div > ul{
+    display: block;
+}
+
+/*body > div:nth-child(2) > nav > div > a{
+    color: white;
+
+}*/
+
+#offcanvas-usage > div > ul > li > a{
+    color: black;
+    font-weight: bolder;
+    justify-content: left;
+}
+
+#offcanvas-usage > div{
+    background: white;
+}
+
+
+.uk-notification-message{
+    background: #fff;
+    border: 2px solid;
+    text-align: center;
+}
+#loading{
+
+    z-index: 9999;
+
+    color: #18b6fc;
+
+}
+#loading svg circle{
+    stroke-width: 3;
+}
+.uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6, h1, h2, h3, h4, h5, h6, .uk-navbar-nav>li>a {
+    color: #18b6fc !important;
+}
+
+.uk-button{
+    background: #18b6fc !important;
+    color: white !important;
+}
+
+.uk-button:hover{
+    background: #1ca2fc !important;
+}
+
+.menu-a{
+    color: #18b6fc !important;
+    font-size: 18px !important;
+}
+
+.menu-a:hover{
+    color: #1AA8FC !important;
+}
+
+input[type=text]:focus, textarea:focus,select:focus {
+    box-shadow: 0 0 5px #18b6fc !important;
+    border: 1px solid #18b6fc !important;
+}
+input, textarea,.uk-select{
+    color: #18b6fc !important;
+}
+.uk-checkbox:checked, .uk-checkbox:indeterminate, .uk-radio:checked {
+    background-color: #18b6fc !important;
+}
+
+#spinner{
+    position: fixed;
+    top: 0;
+    left:0;
+    background: rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 99;
+}
+
+#to-top {
+    position: fixed;
+    left: 85%;
+    bottom: 10%;
+    display: none;
+    z-index: 98;
+}
+
+
+
+.uk-table-hover tbody tr:hover, .uk-table-hover>tr:hover{
+    background: #18b6fc24 !important;
+}
+
+    .uk-card-body .uk-nav-default > li > a {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+}
+
+ul.uk-nav-default > li > a:hover,.uk-navbar-dropdown-nav>li>a:hover{
+    border-left: 2px solid #39f;
+    /*padding-left: 30px;*/
+    color: black;
+    background-color: rgba(0,0,0,0.1);
+
+    padding: 8px 20px;
+    /*border-left: 2px solid transparent;*/
+    transition: all 0.15s ease-out;
+}
+
+ul.uk-nav-default > li.uk-parent > ul>li:hover{
+    padding: 8px 20px;
+    /*border-left: 2px solid transparent;*/
+    transition: all 0.15s ease-out;
+}
+
+.uk-input,.uk-button,.uk-subnav-pill>.uk-active>a,select,textarea{
+    border-radius: 20px !important;
+}
+
+.uk-table th{
+    text-align: center !important;
+}
+
+.block-ui-message-container > div{
+    display: none !important;
+}
+
+.pagination_div>strong{
+
+padding-left: 8px;
+    background: #18b6fc !important;
+    color: white;
+    padding-right: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+.pagination_div>a{
+    padding-left: 8px;
+    padding-right: 8px;
+    font-weight: 800;
+}
+
+table.dataTable.stripe tbody tr.odd.selected, table.dataTable.display tbody tr.odd.selected,table.dataTable tbody tr.selected{
+    background: #39f !important;
+    color: white !important;
+}
+table.dataTable.display tbody tr.odd.selected>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd.selected>.sorting_1,table.dataTable.display tbody tr.even.selected>.sorting_1, table.dataTable.order-column.stripe tbody tr.even.selected>.sorting_1{
+    background-color: #4367a7 !important;
+}
+.transaction_modal_warning_text{
+    text-align: center;
+    font-weight: 800;
+}
+
+table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td{
+    text-align: center;
+}
