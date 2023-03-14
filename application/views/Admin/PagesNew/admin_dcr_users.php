@@ -14,6 +14,15 @@ tr{
 .blockUI{
 	z-index: 2000 !important;
 }
+.add-user-btn{
+	background : #0088cc;
+	border: none;
+	color: #ffffff;
+	border-radius: 5px;
+	height: 40px;
+	font-size: 0.9rem;
+	padding: 0.5rem 0.75rem;
+}
 </style>
 <div class="inner-wrapper">
 	<section class="body-coupon">
@@ -32,61 +41,8 @@ tr{
 			</div>
 		</header>
 
-		<div class="row">
-			<div class="col-lg-4">
-				<div class="center-sign" >
-					<div class="panel card-sign">
-                        <div class="card-title-sign mt-3 text-right">
-							<h5 class="title text-uppercase font-weight-bold m-0"><i class="fas fa-user mr-1"></i>
-								Add a User</h5>
-						</div>
-						<div class="card-body">
-							<form class="">
-                            <div class="form-group mb-0">
-                                <label class="" for="form-horizontal-text">Name :</label>
-                                <input type="text" name="name" id="name" class="form-control">
-                            </div>
-                            <div class="form-group mb-0">
-                                <label class="" for="form-horizontal-text">Contact Number :</label>
-                                <input type="tel" name="phone_no" id="phone_no" maxlength="10" class="form-control">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="" for="form-horizontal-text">Store Access:</label>
-                                    <select class="form-control" id="store_access">
-                                        <option value="0">From Anywhere</option>
-                                        <option value="1">Within 100 meters from Store</option>
-                                    </select>
-                            </div>
-                              <div class="form-group mb-0">
-									<label class="" for="form-horizontal-text">Associated Branches :</label>
-									<input type="text" name="branch_list"  id="branch_list" placeholder="Click here to show" id="filter_branches" class="form-control" onclick ="show_branch_list()" readonly>
-								</div>
-								<div class="form-group mb-0" id="choosed_branch_list" style="display:none;">
-									<ul>
-									<?php for ($i = 0; $i < sizeof($stores); $i++) { ?>
-										<li id="<?php echo $stores[$i]['BranchCode'];?>"><?php echo $stores[$i]['BranchName'];?></li>
-									<?php } ?>
-									</ul>
-								</div>
-							<div class="row">
-								<div class="col-md-4">
-									<div class="" id="add_coupon">
-										<button id="add_coupon" type="button"
-											class="btn btn-primary mt-4" onclick="save_dcr_user('add')">
-										ADD USER
-										</button>
-									</div>
-								</div>
-								
-							</div>
-					</form>
-						</div>
-
-					     </div>
-				    </div>
-			</div>
-
-	<div class="col-lg-8 ">
+<div class="row">
+	<div class="col-lg-12 ">
 	<div class="mt-5 mb-5">
 
 		<table id="dcr_users" 
@@ -182,6 +138,49 @@ tr{
 		</div>
 	</div>
 </div>
+<div id="show_user_form" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 style="font-size: 24px; color: #17919e; text-shadow: 1px 1px #ccc;"><i class="fa fa-folder"></i> Add A User</h3>
+			</div>
+			<div class="modal-body">
+			<form class="">
+                <div class="form-group mb-0">
+                    <label class="" for="form-horizontal-text">Name :</label>
+                    <input type="text" name="name" id="name" class="form-control">
+                </div>
+                <div class="form-group mb-0">
+                    <label class="" for="form-horizontal-text">Contact Number :</label>
+                    <input type="tel" name="phone_no" id="phone_no" maxlength="10" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label class="" for="form-horizontal-text">Store Access:</label>
+                        <select class="form-control" id="store_access">
+                            <option value="0">From Anywhere</option>
+                            <option value="1">Within 100 meters from Store</option>
+                        </select>
+                </div>
+                    <div class="form-group mb-0">
+                        <label class="" for="form-horizontal-text">Associated Branches :</label>
+                        <input type="text" name="branch_list"  id="branch_list" placeholder="Click here to show" id="filter_branches" class="form-control" onclick ="show_branch_list()" style="background-color:#ffffff;" readonly>
+                    </div>
+                    <div class="form-group mb-0" id="choosed_branch_list" style="display:none;">
+                        <ul>
+                        <?php for ($i = 0; $i < sizeof($stores); $i++) { ?>
+                            <li id="<?php echo $stores[$i]['BranchCode'];?>"><?php echo $stores[$i]['BranchName'];?></li>
+                        <?php } ?>
+                        </ul>
+                    </div>
+                </form>
+			</div>
+			<div class="modal-footer" id="dcr_user_details_btn">
+				<button type="button" id="update_user_details" class="btn btn-primary"  onclick="save_dcr_user('add')">SAVE</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div id="show_user_details_modal" class="modal fade" role="dialog" style="">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -213,10 +212,7 @@ tr{
 
 				</form>
 			</div>
-			<div class="modal-footer" id="dcr_user_details_btn">
-				<button type="button" id="update_user_details" class="btn btn-primary" ><i class="fa fa-times"></i> UPDATE DETAILS</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-			</div>
+			<div class="modal-footer" id="dcr_user_update_btn"></div>
 		</div>
 	</div>
 </div>
@@ -287,6 +283,7 @@ tr{
 	});
     function show_branch_list()
      {
+
 		if($('#name').val() != "" && $('#phone_no').val() != "" && $('#store_access').val() != "" && $('#pswd').val() != ""){
 			$('#filter_text').val("");
 			let branch_list = document.querySelectorAll('#stores_block label')
@@ -296,10 +293,11 @@ tr{
 			for (let i = 0; i < branch_list.length; i++) {
 				branch_list[i].style.display = "block";
 			}
-			var html ='<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>';
-			html += '<button type="button" class="btn btn-primary" onclick="check_branch_checked()">Ok</button>';
+			var html ='<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="open_user_form()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>';
+			html += '<button type="button" class="btn btn-primary" onclick="check_branch_checked()">Save</button>';
 			$('#branch_list_btn').html(html);
 			$('#show_branch_list').modal({backdrop: 'static', keyboard: true, show: true});
+			$("#show_user_form").modal('hide');
 			$("#show_branch_list").modal('show');
 			$('#city_list').hide();
 			<?php for($j=0;$j< sizeof($states);$j++){?>
@@ -317,14 +315,6 @@ tr{
 		}
     }
     $("#filter_text").on("keyup", function (){
-		// var selected_stores = $('input[name="selected_stores"]:checked');
-		// var selected_store_codes = [];
-		// var selected_store_names = [];
-		// selected_stores.each(function () {
-		// 	selected_store_codes[i] = $(this).val();
-		// 	selected_store_names[i] = $(this).parent().text();
-		// 	i++;
-		// })
         var value = $(this).val().toLowerCase();
 		let branch_list = document.querySelectorAll('#stores_block label')
 		for (let i = 0; i < branch_list.length; i++) {
@@ -333,10 +323,6 @@ tr{
 				branch_list[i].style.display = "";
 			}else{
 				branch_list[i].style.display = "none";
-				// for(let j=0;j<selected_store_names.length;j++){
-				// 	if(selected_store_names[j] == branch_list[i].textContent)
-				// 		$('#'+selected_store_codes[j]).prop('checked',false);
-				// }
 			}
 		}
     });
@@ -393,9 +379,16 @@ tr{
 			    "order": [[ 0, "asc" ]],
 				dom: 'Bfrtip', bInfo : false,
 				"buttons": [
-					'copy', 'csv', 'excel',
+					'copy', 'csv', 'excel','adduser'
 				],
 				buttons: [
+							{
+								text: '<i class="fa fa-plus" aria-hidden="true" style="color:#ffffff"></i> Add New User',
+								className: 'add-user-btn',
+								action: function ( e, dt, node, config ) {
+									open_user_form()
+								}
+							},
 							{ extend: 'copy', className: 'btn btn-primary glyphicon glyphicon-duplicate', exportOptions: {
 									columns: [0,1,2,3,6,7,8,9,11]
 								}
@@ -407,7 +400,7 @@ tr{
 							{ extend: 'excel', className: 'btn btn-primary glyphicon glyphicon-list-alt', exportOptions: {
 									columns: [0,1,2,3,6,7,8,9,11]
 								}
-							}
+							},			
 						],
 				'ajax': {
 					'url': base_url + "consoleadmin_controller/get_dcr_users"
@@ -718,9 +711,9 @@ tr{
 				$('#editname').val(response.user_details.Name);
 				$('#edit_contactno').val(response.user_details.Phone);
 				$('#edit_store_access').val(response.user_details.store_access_limit);
-				var html = '<button type="button" id="update_user_details" onclick="update_user_details('+response.user_details.Id+')" class="btn btn-primary" ><i class="fa fa-times"></i> UPDATE DETAILS</button>';
+				var html = '<button type="button" id="update_user_details" onclick="update_user_details('+id+')" class="btn btn-primary" ><i class="fa fa-times"></i> UPDATE DETAILS</button>';
 				html += '<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>';
-				$('#dcr_user_details_btn').html(html);
+				$('#dcr_user_update_btn').html(html);
 				$('#show_user_details_modal').modal({backdrop: 'static', keyboard: true, show: true});
 			}
 		});
@@ -1566,6 +1559,12 @@ tr{
 				
 			}
 		}
+	}
+	function open_user_form()
+	{
+		$('#show_user_form').modal({backdrop: 'static', keyboard: true, show: true});
+		$("#show_user_form").modal('show');		
+
 	}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>

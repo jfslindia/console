@@ -1,641 +1,556 @@
-<style>
-	tr{
-		text-align:center;
-	}
-	.select_box{
-		border: 2px solid #000000;
-	}
-	.fa-eye{
-		color: #000000;
-	}
-	.deactivate{
-		display:none;
-	}
-	/* table.dataTable {
-  table-layout: fixed;
-} */
-/* table.dataTable thead th:nth-child(6){
-  overflow-wrap: break-word;
-  width: 150px !important;
-  max-width: 150px !important;
-  padding-right: 0px;
-  padding-left: 0px;
-}
-table.dataTable tbody td:nth-child(6) {
-  overflow-wrap: break-word;
-  width: 150px !important;
-  max-width: 150px !important;
-  padding-right: 0px;
-  padding-left: 0px;
-} */
-</style>
-<div class="inner-wrapper">
-
-	<!-- start: page -->
-	<section class="body-coupon">
-		<header class="page-header">
-			<h2>Fab Daily Reports</h2>
-
-			<div class="right-wrapper text-right mr-5">
-				<ol class="breadcrumbs">
-					<li>
-						<a href="<?php echo base_url(); ?>console/home">
-							<i class="fas fa-home"></i>
-						</a>
-					</li>
-					<li><span><a href="<?php echo base_url(); ?>consoleadmin/dcr"><h2>Users</h2></a></span></li>
-				</ol>
-			</div>
-
-		</header>
-
-		<div class="row">
-			<div class="col-lg-12 ">
-				<div class="mt-5 mb-5">
-					<div class="col-lg-12">
-						<div class="tabs tabs-primary">
-							<div class="tab-content">
-								<div id="collections" class="tab-pane active">
-									<table id="collections_table" style="width: 100%"
-										   class="table table-responsive-lg table-bordered table-striped table-sm mb-0">
-										<thead>
-										<tr>
-											<th colspan="3">Select a time period:</th>
-											<th colspan="2"><input type="date" name="start_date" id="start_date" value="<?= date('Y-m-d'); ?>"  style="width:200px;" max="<?= date('Y-m-d'); ?>"></th>
-											<th colspan="3"><input type="date" name="end_date" id="end_date" value="<?= date('Y-m-d'); ?>" style="width:200px;" max="<?= date('Y-m-d'); ?>"></th>
-											<th colspan="2"><input type = "button" class="btn btn-primary" onclick="fetch_dcr_report()" value=" Search... " style="width:250px;"></th>
-										</tr>
-										<tr>
-											<th class="select-filter">Store Name</th>
-											<th class="select-filter">State</th>
-											<th>City</th>
-											<th width="80">Brand</th>
-											<th width="100">Fabricare Dated</th>
-											<th class="select-filter" style="min-width: 130px;">Cash settlement in fabricare</th>
-											<th class="select-filter" style="min-width: 150px;">Total cash to be collected From 01-12-2022 to till date</th>
-											<th class="select-filter" style="min-width: 130px;">User Selected From(fabricare) Date</th>
-											<th class="select-filter" style="min-width: 130px;">User Selected To(fabricare) Date</th>
-											<th class="select-filter" style="min-width: 150px;">Total cash to be collected in the choosed timeperiod</th>
-											<th class="select-filter">Cash collected today</th>
-											<th class="select-filter">Difference to collect</th>
-											<th class="select-filter">Deposited (Y/N)</th>
-											<th class="select-filter">Total Deposited</th>
-											<th class="select-filter">Pending to Deposit</th>
-											<th class="select-filter">Deposit Slip #</th>
-											<th class="select-filter">Image</th>
-											<th class="select-filter">Collection Executive Name</th> 
-										</tr>
-										</thead>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-
-                    </div>
-				</div>
-</div>
-	</section>
-</div>
-<div id="show_dcr_store_details_modal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 style="font-size: 24px; color: #17919e; text-shadow: 1px 1px #ccc;"><i class="fa fa-folder"></i> Store Details</h3>
-			</div>
-			<div class="modal-body">
-				<form class=""  id="submitApprove"  method="post">
-					<div class="form-group mb-0">
-						<div class="row">
-							<div class="col-sm-6 mb-3">
-								<label>Store Name</label>
-								<textarea class="form-control" id="show_store" rows="2" readonly></textarea>
-							</div>
-							<div class="col-sm-6 mb-3">
-								<label for="form-horizontal-text">Brand Code:</label>
-								<input name="show_brandcode" type="text" id="show_brandcode"
-									   class="form-control form-control-lg" readonly/>
-							</div>
-						</div>
-					</div>
-					<div class="form-group mb-0">
-						<div class="row">
-							<div class="col-sm-6 mb-3">
-								<label>State</label>
-								<input name="show_state" type="text" id="show_state"
-									   class="form-control form-control-lg" readonly/>
-							</div>
-							<div class="col-sm-6 mb-3">
-								<label>City</label>
-								<input name="show_city" type="text" id="show_city"
-									   class="form-control form-control-lg" readonly/>
-							</div>
-						</div>
-					</div>
-					<div class="form-group mb-0">
-						<div class="row">
-							<div class="col-sm-6 mb-3">
-								<label>Branch Code</label>
-								<input name="show_branchcode" type="text" id="show_branchcode"
-									   class="form-control form-control-lg" readonly/>
-							</div>
-							<div class="col-sm-6 mb-3">
-								<label>Store In Charge</label>
-								<input name="show_storeincharge" type="text" id="show_storeincharge"
-									   class="form-control form-control-lg" readonly/>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="show_dcr_settlement_details_modal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 style="font-size: 24px; color: #17919e; text-shadow: 1px 1px #ccc;"><i class="fa fa-folder"></i>Cash Settlement Details</h3>
-			</div>
-			<div class="modal-body">
-				<table class="table table-responsive-lg table-bordered table-striped table-sm mb-0">
-					<thead>
-						<tr>
-							<th>DateTime</th>
-							<th>BillAmount</th>
-							<th>EGRN</th>
-							<th>BillNo</th>
-						</tr>
-					</thead>
-					<tbody id="settlement_list"></tbody>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="show_deposit_details_modal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 style="font-size: 24px; color: #17919e; text-shadow: 1px 1px #ccc;"><i class="fa fa-folder"></i>Cash Settlement Details</h3>
-			</div>
-			<div class="modal-body">
-				<table class="table table-responsive-lg table-bordered table-striped table-sm mb-0">
-					<thead>
-						<tr>
-							<th>Store</th>
-							<th width="100">Amount</th>
-							<th>SettlementDate From</th>
-							<th>SettlementDate To</th>
-						</tr>
-					</thead>
-					<tbody id="store_deposit_list"></tbody>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-<script>
-	jQuery(document).ready(function () {
-		$('#receivers_list_block').hide();
-		$('#exceltable tr').remove();
-		var d = new Date();
-		var month = d.getMonth()+1;
-		var day = d.getDate();
-		var today = d.getFullYear() + '-' +
-			(month<10 ? '0' : '') + month + '-' +
-			(day<10 ? '0' : '') + day;
-
-		var table = $('#collections_table').DataTable({
-				"bDestroy": true,
-			fixedHeader: {
-				header: false,
-				footer: false
-			},
-			autoWidth: false,
-			scrollX: true,
-			"pageLength": 5,
-			//"order": [[0, "asc"]],
-			dom: 'Bfrtip', bInfo: false,
-			"buttons": [
-				'copy', 'csv', 'excel',
-			],
-			buttons: [
-					{
-						extend: 'copy', className: 'btn btn-primary glyphicon glyphicon-duplicate', exportOptions: {
-							columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17]
-						}
-					},
-					{
-						extend: 'csv', className: 'btn btn-primary glyphicon glyphicon-save-file', exportOptions: {
-							columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17]
-						}
-					},
-					{
-						extend: 'excel', className: 'btn btn-primary glyphicon glyphicon-list-alt', exportOptions: {
-							columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17]
-						}
-					},
-				],
-				'ajax': {
-					'url': base_url + "consoleadmin_controller/get_dcr_reports_from_timeperiod/"+today+"/"+today
-				},
-				"columnDefs": [
-					{"searchable": true, "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16]},
-				],
-				'columns': [
-				{data: 'StoreBranchName'},
-				{data: 'State'},
-				{data: 'City'},
-				{data: 'Brand'},
-				{data: 'Fabricaredate'},
-				{
-					data: 'cash_settlement_in_fabricare',
-					
-					"render": function (data, type, row) {
-						if(row['cash_settlement_in_fabricare'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['cash_settlement_in_fabricare'];
-						else
-							html = '';
-						return html;
-					}
-				},
-				{
-					data: 'total_cash_tobe_collected_till_date',
-					"render": function (data, type, row) {
-						if(row['total_cash_tobe_collected_till_date'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['total_cash_tobe_collected_till_date'];
-						else 
-							html = '';
-						return html;
-					}
-				},
-				{data : 'DateFrom'},
-				{data : 'DateTo'},
-				{
-					data: 'TotalAmount',
-					"render": function (data, type, row) {
-						if(row['TotalAmount'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['TotalAmount'];
-						else 
-							html = '';
-						return html;
-					}
-				},
-				{
-					data: 'CollectedAmount',
-					
-					"render": function (data, type, row) {
-						if(row['CollectedAmount'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['CollectedAmount'];
-						else
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> 0.00';
-						return html;
-					}
-				},
-				{
-					data: 'Difference_to_collect',
-					
-					"render": function (data, type, row) {
-						if(row['Difference_to_collect'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['Difference_to_collect'];
-						else
-							html = '';
-						return html;
-					}
-				},
-				{
-					data: 'IsDeposited',
-					
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html ='Yes';
-						else
-							html ='No';
-						return html;
-					}
-				},
-				{
-					data: 'Totaldeposited',
-					
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['CollectedAmount'];
-						else
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> 0.00';
-						return html;
-					}
-				},
-				{
-					data: 'pendingtodeposit',
-					
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html ='';
-						else
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['CollectedAmount'];
-						return html;
-					}
-				},
-				{
-					data: 'depositslip',
-					
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html ='https://dcr.jfsl.in/dcr/get_deposite_image/' + row['image'];
-						else
-							html ='';
-						return html;
-					}
-				},
-				{
-					data: '',
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html = '<a target="_blank" href="https://dcr.jfsl.in/dcr/get_deposite_image/' + row['image']+'"><img src="https://dcr.jfsl.in/dcr/get_deposite_image/' + row['image'] + '" style="width:80px;height:50px;" alt="Deposit Slip"/></a>';
-						else
-							html ='';
-						return html;
-					}
-				},
-				{data: 'Name',render: $.fn.dataTable.render.number( ',', '.', 0, '$' )}
-			],
-			});
-});
-function  show_store_details(id){
-	$.ajax({
-		url :  base_url +"consoleadmin_controller/get_dcr_store_details/"+id,
-		data:{},
-		method:'GET',
-		dataType:'json',
-		success:function(response) {
-			$('#show_store').val(response.store_details[0].StoreBranchName);
-			$("#show_state").val(response.store_details[0].State);
-			$("#show_city").val(response.store_details[0].City);
-			$("#show_branchcode").val(response.store_details[0].StoreBranchCode);
-			$("#show_storeincharge").val(response.store_details[0].StoreInCharge);
-			$("#show_brandcode").val(response.store_details[0].BrandCode);
-			$('#show_dcr_store_details_modal').modal({backdrop: 'static', keyboard: true, show: true});
-		}
-	});
-	$("#show_dcr_store_details_modal").modal('show');
-}
-function  show_settlement_details(id){
-	$.ajax({
-		url :  base_url +"consoleadmin_controller/get_storewise_settlement_details/"+id,
-		data:{},
-		method:'GET',
-		dataType:'json',
-		success:function(response) {
-			if(response.settlement_details.length > 0){
-				var html = '';
-				for(var i=0;i<response.settlement_details.length;i++){
-					html +='<tr>';
-					html += '<td>'+response.settlement_details[i].Date+'</td>';
-					html += '<td><i class="fa fa-rupee-sign" aria-hidden="true"></i> '+response.settlement_details[i].BillAmount+'</td>';
-					html += '<td>'+response.settlement_details[i].EGRN+'</td>';
-					html += '<td>'+response.settlement_details[i].BillNo+'</td>';
-					html +='</tr>';
-				}
-				$('#settlement_list').html(html);
-				$('#show_dcr_settlement_details_modal').modal({backdrop: 'static', keyboard: true, show: true});
-				$("#show_dcr_settlement_details_modal").modal('show');
-			}else{
-				UIkit.notification({
-						message: 'No Data Found',
-						status: 'danger',
-						pos: 'bottom-center',
-						timeout: 1000
-					});
-			}
-			
-		}
-	});
-}
-function  fetch_dcr_report(){
-	var start_date = $('#start_date').val();
-	var end_date = $('#end_date').val();
-	if(start_date != "" && end_date != ""){
-		if(start_date > end_date){
-			UIkit.notification({
-				message: 'Please choose dates correctly',
-				status: 'danger',
-				pos: 'bottom-center',
-				timeout: 1000
-			});
-		}else{
-
-			var table = $('#collections_table').DataTable({
-				"bDestroy": true,
-			//	stateSave: true,
-			fixedHeader: {
-				header: false,
-				footer: false
-			},
-			scrollX: true,
-			"pageLength": 5,
-			//"order": [[0, "asc"]],
-			dom: 'Bfrtip', bInfo: false,
-			"buttons": [
-				'copy', 'csv', 'excel',
-			],
-			buttons: [
-					{
-						extend: 'copy', className: 'btn btn-primary glyphicon glyphicon-duplicate', exportOptions: {
-							columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17]
-						}
-					},
-					{
-						extend: 'csv', className: 'btn btn-primary glyphicon glyphicon-save-file', exportOptions: {
-							columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17]
-						}
-					},
-					{
-						extend: 'excel', className: 'btn btn-primary glyphicon glyphicon-list-alt', exportOptions: {
-							columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17]
-						}
-					},
-				],
-				'ajax': {
-					'url': base_url + "consoleadmin_controller/get_dcr_reports_from_timeperiod/"+start_date+"/"+end_date
-				},
-				"columnDefs": [
-					{"searchable": true, "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16]} , // Disable search on first and last columns
-				],
-
-			'columns': [
-				{data: 'StoreBranchName'},
-				{data: 'State'},
-				{data: 'City'},
-				{data: 'Brand'},
-				{data: 'Fabricaredate'},
-				{
-					data: 'cash_settlement_in_fabricare',
-					
-					"render": function (data, type, row) {
-						if(row['cash_settlement_in_fabricare'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['cash_settlement_in_fabricare'];
-						else
-							html = '';
-						return html;
-					}
-				},
-				{
-					data: 'total_cash_tobe_collected_till_date',
-					"render": function (data, type, row) {
-						if(row['total_cash_tobe_collected_till_date'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['total_cash_tobe_collected_till_date'];
-						else 
-							html = '';
-						return html;
-					}
-				},
-				{data : 'DateFrom'},
-				{data : 'DateTo'},
-				{
-					data: 'TotalAmount',
-					"render": function (data, type, row) {
-						if(row['TotalAmount'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['TotalAmount'];
-						else 
-							html = '';
-						return html;
-					}
-				},
-				{
-					data: 'CollectedAmount',
-					
-					"render": function (data, type, row) {
-						if(row['CollectedAmount'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['CollectedAmount'];
-						else
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> 0.00';
-						return html;
-					}
-				},
-				{
-					data: 'Difference_to_collect',
-					
-					"render": function (data, type, row) {
-						if(row['Difference_to_collect'] != '')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['Difference_to_collect'];
-						else
-							html = '';
-						return html;
-					}
-				},
-				{
-					data: 'IsDeposited',
-					
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html ='Yes';
-						else
-							html ='No';
-						return html;
-					}
-				},
-				{
-					data: 'Totaldeposited',
-					
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['CollectedAmount'];
-						else
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> 0.00';
-						return html;
-					}
-				},
-				{
-					data: 'pendingtodeposit',
-					
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html ='';
-						else
-							html =' <i class="fa fa-rupee-sign" aria-hidden="true"></i> ' + row['CollectedAmount'];
-						return html;
-					}
-				},
-				{
-					data: 'depositslip',
-					
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html ='https://dcr.jfsl.in/dcr/get_deposite_image/' + row['image'];
-						else
-							html ='';
-						return html;
-					}
-				},
-				{
-					data: '',
-					"render": function (data, type, row) {
-						if(row['IsDeposited'] == '1')
-							html = '<a target="_blank" href="https://dcr.jfsl.in/dcr/get_deposite_image/' + row['image']+'"><img src="https://dcr.jfsl.in/dcr/get_deposite_image/' + row['image'] + '" style="width:80px;height:50px;" alt="Deposit Slip"/></a>';
-						else
-							html ='';
-						return html;
-					}
-				},
-				{data: 'Name',render: $.fn.dataTable.render.number( ',', '.', 0, '$' )}
-			],
-			});
-		}
-	}else{
-		UIkit.notification({
-			message: 'Please choose a time period',
-			status: 'danger',
-			pos: 'bottom-center',
-			timeout: 1000
-		});
-	}
-}
-function show_deposit_list(id)
-{
-	$.ajax({
-		url :  base_url +"consoleadmin_controller/get_deposited_store_list",
-		data:{
-			deposit_id:id
-		},
-		method:'POST',
-		dataType:'json',
-		success:function(response) {
-			if(response.stores_data.length > 0){
-				var html = '';
-				for(var i=0;i<response.stores_data.length;i++){
-					html +='<tr>';
-					html += '<td>'+response.stores_data[i].StoreBranchName+'</td>';
-					html += '<td><i class="fa fa-rupee-sign" aria-hidden="true"></i> '+response.stores_data[i].CollectedAmount+'</td>';
-					html += '<td>'+response.stores_data[i].DateFrom+'</td>';
-					html += '<td>'+response.stores_data[i].DateTo+'</td>';
-					html +='</tr>';
-				}
-				$('#store_deposit_list').html(html);
-				$('#show_deposit_details_modal').modal({backdrop: 'static', keyboard: true, show: true});
-				$("#show_deposit_details_modal").modal('show');
-			}else{
-				UIkit.notification({
-						message: 'No Data Found',
-						status: 'danger',
-						pos: 'bottom-center',
-						timeout: 1000
-					});
-			}
-			
-		}
-	});
-}
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+FABRICSPA CDC - JP NAGAR - MYS
+FABRIC SPA  QSS ANNA NAGAR - CHENNAI
+FABRICSPA -CDC - GOLD HUB MALL KALABURAGI - KLBG
+FABRICSPA CDC  ANDHERI
+FABRICSPA CDC -  BELLARI - BEL
+FABRICSPA CDC -  MAGARPATTA - PUNE
+FABRICSPA CDC - 10TH MAIN HSR 7th SEC  - BLR
+FABRICSPA CDC - 16TH A MAIN 4T JAYANAGAR - BLR
+FABRICSPA CDC - 3RD EAST BLOCK JAYANAGAR
+FABRICSPA CDC - AUNDH
+FABRICSPA CDC - BAGALKOT - BGK
+FABRICSPA CDC - BANGALORE CLUB
+FABRICSPA CDC - BANNERGHATTA ROAD - BLR
+FABRICSPA CDC - BASAPURA MAIN ROAD ELECT. CITY-BLR
+FABRICSPA CDC - BASAVESHWARA NAGAR - BLR
+FABRICSPA CDC - BAVDHAN RAM NAGAR - PUNE
+FABRICSPA CDC - BELAGERE PANATHUR BLR
+FABRICSPA CDC - BIDARAGUPPE - BLR
+FABRICSPA CDC - BOAT CLUB
+FABRICSPA CDC - BYRATHI BANDE HENNUR RD - BLR
+FABRICSPA CDC - CHANDAPUR GNR L/O - BLR
+FABRICSPA CDC - CHAPEL ROAD - BANDRA - MUMBAI
+FABRICSPA CDC - DHARWAD - DWD
+FABRICSPA CDC - FRASER TOWN  - BLR
+FABRICSPA CDC - GANGAMMA CIRCLE J'HALLI  - BLR
+FABRICSPA CDC - GELEYARA BALAGA MAHALAKSHMI LAYOUT
+FABRICSPA CDC - GHATKOPAR MUMBAI
+FABRICSPA CDC - GOTTIGERE - BLR
+FABRICSPA CDC - HARIHARA - HRH
+FABRICSPA CDC - HESARAGATTA RD  - BLR 
+FABRICSPA CDC - HINJEWADI - PUNE
+FABRICSPA CDC - HLRC WHITE FIELD - BLR
+FABRICSPA CDC - ILKAL - ILK
+FABRICSPA CDC - KAMMANAHALLI NEHRU ROAD - BLR 
+FABRICSPA CDC - KEMPS CORNER - MUMBAI
+FABRICSPA CDC - KHARADI - PUNE
+FABRICSPA CDC - KONDWA MARKET YARD - PUNE
+FABRICSPA CDC - KOPPIKAR HUBLI
+FABRICSPA CDC - LINK ROAD SANTACRUZ MUMBAI
+FABRICSPA CDC - MAMAS JOINT ROAD DAVANAGERE - DVG
+FABRICSPA CDC - MARGOSA ROAD MALLESHWARAM (W) BLR
+FABRICSPA CDC - MG ROAD MANGALURU  - MLR
+FABRICSPA CDC - NAGARABHAVI - BLR 
+FABRICSPA CDC - NEELADRI NAGAR ELECT. CITY-BLR
+FABRICSPA CDC - NUNGAMBAKKAM - CHE
+FABRICSPA CDC - PAUD ROAD KOTHRUD - PUNE
+FABRICSPA CDC - PIMPLE NILAKH - PUNE
+FABRICSPA CDC - PIMPLE SAUDAGAR - PUNE
+FABRICSPA CDC - POWAI MUMBAI
+FABRICSPA CDC - PRABHADEVI - MUMBAI
+FABRICSPA CDC - PURUSAWALKAM - CHE
+FABRICSPA CDC - QIKPOD-DEVARABISINAHALLI - BLR
+FABRICSPA CDC - RAJAJINAGAR Dr.RAJKUMAR ROAD BLR
+FABRICSPA CDC - RAJARAJESHWARI NAGAR - BLR
+FABRICSPA CDC - RT NAGAR - BLR 
+FABRICSPA CDC - SEAWOOD ESTATE - NERUL MUMBAI
+FABRICSPA CDC - SEEGEHALLI KADUGODI  - BLR
+FABRICSPA CDC - SINHAGAD - PUNE
+FABRICSPA CDC - SOMPURAGATE SJR VIL - BLR
+FABRICSPA CDC - T NAGAR BAZULLAH RD-CHE
+FABRICSPA CDC - TALAGHATPURA - BLR
+FABRICSPA CDC - VELACHERY - CHE
+FABRICSPA CDC - VIJAYAPUR - BJP
+FABRICSPA CDC - VINAYA MARGA - MYS
+FABRICSPA CDC - VIVEKANANDANAGAR - MYS
+FABRICSPA CDC - WANOWADI - PUNE
+FABRICSPA CDC - YELAHANKA NT - BLR 
+FABRICSPA CDC -BOWRING CLUB - BLR
+FABRICSPA CDC -MALATHAHALLI - BLR
+FABRICSPA CDC -SANPADA - MUMBAI
+FABRICSPA CDC 5TH BLOCK KORAMANGALA
+FABRICSPA CDC AKSHAYNAGAR
+FABRICSPA CDC AMMAN NAGAR THALLY ROAD
+FABRICSPA CDC AVALAPALLI HUDCO
+FABRICSPA CDC BANASHANKARI 3RD STAGE
+FABRICSPA CDC BANGALORE GOLF CLUB
+FABRICSPA CDC CENTURY CLUB
+FABRICSPA CDC DEVARABISINAHALLI
+FABRICSPA CDC HOODI
+FABRICSPA CDC HORAMAVU
+FABRICSPA CDC HSR LAYOUT
+FABRICSPA CDC HYPERCITY
+FABRICSPA CDC INDIRANAGAR ADYAR -CHENNAI
+FABRICSPA CDC INDRANAGAR
+FABRICSPA CDC JP NAGAR 2ND PHASE - BLR
+FABRICSPA CDC JP NAGAR 7TH PHASE
+FABRICSPA CDC KANAKPURA ROAD
+FABRICSPA CDC KENGERI SATELLITE TOWN - BLR
+FABRICSPA CDC KUMARAPARK
+FABRICSPA CDC MOOKANDAPALLI
+FABRICSPA CDC NEW BEL ROAD
+FABRICSPA CDC RK HEGDENAGAR - BLR
+FABRICSPA CDC SADASHIVNAGAR
+FABRICSPA CDC SAHAKARNAGAR
+FABRICSPA CDC SHANTI COLONY - CHENNAI
+FABRICSPA CDC VALLABHANAGAR UTTARAHALLI
+FABRICSPA CDC VIJAYNAGAR
+FABRICSPA CDC WILSON GARDEN
+FABRICSPA CDC-  MARATHAHALLI PRANAV RESIDENCY- BLR
+FABRICSPA CDC- BORIVALI - W (F)
+FABRICSPA CDC- INFOSYS
+FABRICSPA CDC-BELGAUM-BLG
+FABRICSPA CDC-CARMELARAM SJR MAIN ROAD-BLR
+FABRICSPA CDC-HARALUR MAIN ROAD-BLR
+FABRICSPA CDC-PFS MUNNEKOLLALA VARTHUR ROAD-BLR
+FABRICSPA D2D INDRANAGAR
+FABRICSPA D2D KUMARAPARK
+FABRICSPA D2D SADASHIVNAGAR
+FABRICSPA QSS 5TH BLOCK KORAMANGALA
+FABRICSPA QSS, ADYAR - CHENNAI
+FABRICSPA- CDC- HAL MURGESHPALYA -BLR
+BANGALORE REGIONAL OFFICE
+FABRICSPA CDC - VERSOVA MUMBAI
+FABRICSPA CDC - HOSPET - HPT
+FABRICSPA CDC - MANIPAL - MPL
+FABRICSPA CDC - MALLESHPALYA - BLR
+FABRICSPA CDC - HAVERI - HVR
+FABRICSPA CDC - NEHRU NAGAR SECBAD - HYD
+FABRICSPA CDC - MAPUSA  - NGOA
+FABRICSPA CDC - MARGAO - SGOA
+FABRICSPA CDC - GREATER KAILASH I - DEL
+FABRICSPA CDC - C R PARK - DEL
+FABRICSPA CDC - HAUZ KHAS - DEL
+FABRICSPA CDC - POSSANGIPUR JANAKPURI - DEL
+FABRICSPA CDC - VASANT KUNJ - DEL
+FABRICSPA CDC - SOUTH EXT - DEL
+FABRICSPA CDC - RAJOURI GARDEN - DEL
+FABRICSPA CDC - MODEL TOWN - DEL
+FABRICSPA CDC - PREET VIHAR - DEL
+FABRICSPA CDC - PUSHPANJALI - DEL
+FABRICSPA CDC - DILSHAD GARDEN - DEL
+FABRICSPA CDC - INDIRAPURAM - UP
+FABRICSPA CDC - VAISHALI - UP
+FABRICSPA CDC - SECTOR 15A NOIDA - UP
+FABRICSPA CDC - SUSHANTLOK GURGAON - HR
+FABRICSPA CDC - SAKET - DEL
+FABRICSPA CDC - MAYUR VIHAR - DEL
+FABRICSPA CDC SECTOR 52 NOIDA-UP
+FABRICSPA CDC - YOJNA VIHAR - DEL
+FABRICSPA CDC - SECTOR 41 NOIDA - UP
+FABRICSPA CDC - RAICHUR - RC
+FABRICSPA CDC - GANGAVATHI - GGVT
+FABRICSPA CDC - CENTRAL ARCADE - HR
+FABRICSPA CDC - II BASAVESHWARA NAGAR - BLR
+FABRICSPA CDC - TIRUPATI - AP
+FABRICSPA CDC - NALLAKUNTA - HYD
+TEST BRANCH
+FABRICSPA CDC - GOREGAON - MUM
+FABRICSPA CDC - GODREJ VIKHROLI - MUM
+FABRICSPA CDC - PIRANGUT - PUN
+FABRICSPA CDC - SHIVAMOGA NEHRU ROAD - SMGA
+FABRICSPA CDC - NIRVANA COURTYARD FR - HR
+FABRICSPA CDC - HILL COLONY - HYD
+FABRICSPA CDC - BIDAR - BIDR
+FABRICSPA CDC - HASSAN - HAS
+FABRICSPA CDC - MANIPAL CENTER - BLR
+FABRICSPA CDC - CHAMRAJPET - BLR
+FABRICSPA CDC -  KR PURAM - BLR
+FABRICSPA CDC - DOMLUR - BLR
+FABRICSPA CDC - MGR KALABURAGI - BLR
+FABRICSPA CDC -DEVANAHALLI - BLR
+FABRICSPA CDC -  KPHB COLONY KUKATPALLY - HYD
+FABRICSPA CDC - PB ROAD HAVERI - HVR
+FABRICSPA CDC -  KURNOOL  - KRN
+FABRICSPA CDC - MANIKONDA - HYD
+FABRICSPA CDC - AMEERPET - HYD
+FABRICSPA CDC - GADAG - KA
+POWAI SPEC CDC
+FABRICSPA CDC - IGGALUR CHANDAPURA - BLR
+FABRICSPA CDC - DLF SUNCITY - HR
+FABRICSPA CDC - Dr A S RAO NAGAR - HYD
+FABRICSPA CDC - JANAKPURI- DEL
+FABRICSPA CDC - RAICHUR - RC
+FABRICSPA CDC - NOIDA SECTOR 61-UP FR
+FABRICSPA CDC - ATHANI - KA
+FABRICSPA CDC - NOIDA SECTOR 104-UP FR
+FABRICSPA CDC - MIRA ROAD - MUM
+FABRICSPA CDC - MAHAKALI RD - MUM
+FABRICSPA CDC - ADITYA CITY FR-UP
+FABRICSPA CDC - BHAJANPURA -DL
+FABRICSPA CDC - KHANAPUR - KA
+FABRICSPA CDC - AREKERE - BLR
+FABRICSPA CDC - PASHAN -PUNE
+FABRICSPA CDC - ULLAL JUNCTION
+FABRICSPA CDC - YELAHANKA NEW TOWN - KA
+FABRICSPA CDC - JAKKUR - KA
+FABRICSPA CDC - TC PALYA RAMAMURTHY NAGAR - KA
+FABRICSPA CDC - WAGHOLI - PUNE
+FABRICSPA CDC - HIRANANDANI ESTATE - THANE
+FABRICSPA CDC - THAVAREKERE - KA
+FABRICSPA CDC- AYAPPA NAGAR - KA
+FABRICSPA CDC- YAMALURU  - KA
+FABRICSPA CDC -IP EXTENSION-DEL
+FABRICSPA CDC - MAHALINGAPURAM - CHE
+FABRICSPA CDC- JP NAGAR 8th PHASE - KA
+FABRICSPA CDC - SUCHITRA- HYD
+FABRICSPA CDC - SAFILGUDA -HYD
+FABRICSPA CDC - GURGAON
+FABRICSPA MARATHAHALLI
+BANNERGHATTA - UNIT 2 (CDC)
+KURTAINZ & KARPETZ CENTRAL
+CLICK2WASH MALLESHWARAM
+SPEC MSS
+WARDROBE CDC - PUSHPANJALI
+CLICK2WASH  HUB - JEEVANBHIMA NAGAR
+WARDROBE CDC- JAYANAGAR 1ST BLOCK
+WARDROBE CDC - VASUNDHARA
+FABRICSPA CDC - UTTARAHALLI
+FABRICSPA MSS -  BEGUMPET HYDERABAD
+CLICK2WASH WEST
+SNOWAYS MALLESHPALYA
+FACTORY OUTLET -BANNERGHATTA
+CORPORATE ONSITE MSS - LE MERIDIEN, BANGLORE
+KURTAINZ & KARPETZ EAST
+KURTAIN & KARPETS NR COLONY
+SNOWAYS - JAYANAGAR 9TH BLOCK
+CLICK2WASH  HUB - BTM LAYOUT
+CLICK2WASH NR COLONY
+EXPERT SARJAPUR
+WARDROBE CDC - NIZAMUDDING
+HCMSS1-  HOMECLEANING  -  BLR
+SNOWAYS GANGAMA CIRCLE
+FABRICSPA CDC - SOUTH EXTENSION PART -2
+SNOWAYS - 9TH BLOCK
+WARDROBE MSS - NOIDA
+KURTAINZ & KARPETZ SOUTH
+SNOWAYS - RAJAJINAGAR (BASHYAM CIRCLE) (BR NO - 02
+WARDROBE CDC - MEHRAULI
+WARDROBE CDC - FACTORY OUTLET
+FOUR SEASONS CDC - GREATER KAILASH I NEW
+WARDROBE CDC - QUTUB PLAZA
+LDMSS1 - JFSL COBBLER - GURGAON
+KURTAIN & KARPETS GANGAMA CIRCLE
+FABRICSPA - D2D - BANASHANKARI RING ROAD
+WARDROBE CDC - SECTOR 52 NOIDA
+CLICK2WASH SARJAPUR
+EXPERT MALLESHPALYA
+WARDROBE CDC - RAJOURI GARDEN
+FABRICSPA CDC - MALABAR HILL - MUM
+KURTAINZ & KARPETZ SOUTH EAST
+EXPERT CDC SHESHADRIPURAM
+FABRICSPA CDC HSR 7TH SECTOR
+WARDROBE CDC - JANAKPURI
+WARDROBE CDC- KUMARAPARK
+FABRICSPA CDC - KOPPAL - KA
+CLICK2WASH KORAMANGALA
+FOUR SEASONS CDC - GREATER KAILASH II
+FABRICSPA D2D - BANJAHARA HILLS - HYD
+FABRICSPA TALGHATPURA
+CLICK2WASH MALLESHPALYA
+CLICK2WASH SHANTHI NAGAR
+SNOWAYS NORTH
+FABRICSPA MALLESHWARAM
+FABRICSPA-MSS- MYSORE
+SNOWAYS MARATHAHALLI
+WARDROBE CDC - DILSHAD GARDEN
+FABRICSPA MSS-HADAPSAR
+FABRICSPA NORTH EAST
+SNOWAYS BANNERGHATTA
+KURTAIN & KARPETS FRAZOR TOWN
+DODDABALLAPUR -(CDC)
+FOUR SEASONS - VASANT VIHAR
+FABRICSPA EAST
+EXPERT THANISANDRA
+WARDROBE CDC - SHANTINIKETAN
+WARDROBE CDC- INDIRANAGAR
+WARDROBE CDC - EAST PUNJABI BAGH
+WARDROBE CDC - VASANT KUNJ CO
+FABRICSPA CDC - KUVEMPU NAGAR- MYS
+RCP RETAIL CDC  -  NAVI MUMBAI
+KURTAIN & KARPETS THANISANDRA
+SNOWAYS - BANNERGHATTA ROAD
+WARDROBE - BANGALORE RO
+KURTAIN & KARPETS MALLESHWARAM
+FABRICSPA CDC - SHIRUR PARK HUBLI - HUB
+WARDROBE CDC - NOIDA 61
+FABRICSPA D2D HSR LAYOUT SECTOR 1
+SNOWAYS NORTH EAST
+KURTAINZ & KARPETZ NORTH EAST
+FABRICSPA QSS INDRANAGAR
+FABRICSPA CDC - NIRVANA COURTYARD - HR
+WARDROBE CDC - KAMMANAHALLI
+WARDROBE CDC- J P NAGAR 2ND PHASE
+MSS - BANGALORE
+FABRICSPA CDC - SAVALANGA RD SHIVAMOGGA - SMGA
+EXPERT NORTH
+WARDROBE CDC - MALLESWARAM
+SNOWAYS - D2D - JAYANAGAR 5TH BLOCK
+CLICK2WASH KR PURAM
+CLICK2WASH TALGHATPURA
+WARDROBE CDC - VAILSHALI
+TEST MASTER INTEGRATION
+FABRIC SPA
+FABRICSPA THANISANDRA
+WARDROBE CDC - KAMALANAGAR
+FABRICSPA FRAZOR TOWN
+WARDROBE CDC - AIRPORT TERMINAL (3)
+FABRICSPA CDC - VIJAYANAGAR  2ND STAGE- MYS
+FOUR SEASONS CDC - NEW FRIENDS COLONY NEW
+WARDROBE CDC -SUSHANTLOK
+WARDROBE CDC - ROHINI
+KURTAIN & KARPETS SARJAPUR
+WARDROBE CDC - CHARMWOOD VILLAGE
+FABRICSPA D2D - JAYANAGAR 4th T BLOCK
+HOMECLEANING BANGALORE
+CLICK2WASH BANNERGHATTA
+KURTAIN & KARPETS ELECTRONIC CITY
+WARDROBE CDC - POSSANGIPUR JANAKPURI - DL
+SOUTH CITY -II  ARCADIA
+SNOWAYS RAJARAJESHWARI NAGAR
+DHULAI CDC-AUNDH
+WARDROBE CDC - DLF SUNCITY GURGAON
+FABRICSPA CDC -VASHI - MUMBAI
+EXPERT MARATHAHALLI
+FABRICSPA TEST SAHAKARNAGAR
+FABRICSPA CDC - BANJARA HILLS - HYD
+KURTAIN & KARPETS MARATHAHALLI
+FABRICSPA CDC - PANAJI  - NGOA
+KURTAIN & KARPETS BANNERGHATTA
+FABRICSPA CDC - WODEHOUSE ROAD -COLABA - MUMBAI
+WARDROBE MALIBU TOWN GURGAON
+CLICK2WASH NORTH EAST
+CLICK2WASH KADUGODI
+WARDROBE CDC - VIKASPURI
+CLICK2WASH SOUTH
+BANNERGHATTA - UNIT 2 (MSS)
+FSDC - DIAL (MSS)
+MSS - ITC GARDENIA - KA
+FOURSEASONS MSS-OKHLA
+WARDROBE CDC - KADUGODI
+FABRICSPA CDC - NIGDI - PUNE
+FABRICSPA CDC- KARNATAKA GOLF ASSOCIATION - KA
+WARDROBE CDC - USHA NIKETAN
+CLICK2WASH GANGAMA CIRCLE
+FABRICSPA SHANTHI NAGAR
+WARDROBE CDC - ASHOK VIHAR
+CLICK2WASH THANISANDRA
+DIAL MSS
+EXPERT MSS - LINK ROAD, SHESHADRIPURAM
+FABRICSPA KR PURAM
+KADUGODI
+WARDROBE CDC- UTTARAHALLI
+SNOWAYS EAST
+FABRICSPA - D2D - KADUGODI
+CORPORATE ONSITE CDC - LE MERIDIEN, BANGLORE
+DELUXE MSS - JAIPUR
+SNOWAYS FRAZOR TOWN
+WARDROBE CDC - IPEX PRATAPGANJ
+WARDROBE CDC - VASANT KUNJ FO
+FABRICSPA CDC - RCP - MUM
+TEST - GT
+SNOWAYS KORAMANGALA
+FOUR SEASONS CDC - GREATER KAILASH 1 R BLOCK
+WARDROBE CDC - DL - LAUNDERETTE
+WARDROBE CDC - MAHINDRA AURA - HR
+MSS - ITC MARATHA - MUM
+FABRICSPA CDC - INORBIT MALL - MALAD - MUMBAI
+SNOWAYS TALGHATPURA
+FABRICSPA CDC - MARATHAHALLI OUTER RING ROAD-BLR
+FABRICSPA D2D - ADYAR - CHE
+SNOWAYS WEST
+FOUR SEASONS CDC - DLF GURGAON NEW
+WARDROBE CDC - NOIDA  SECTOR -41
+WARDROBE CDC - SECTOR 14 GURGAON
+CORPORATE OFFICE
+FABRICSPA CDC SARJAPUR ROAD - BLR
+FABRICSPA CDC - BAGMANE WTC
+EXPERT CDC MALLESHWARAM CIRCLE
+WARDROBE CDC - VAISHALINAGAR JAIPUR
+FABHOME - KA
+SNOWAYS SOUTH EAST
+EXPERT KR PURAM
+DHULAI CDC - BOAT CLUB
+FABRICSPA CDC - TARA ROAD JUHU MUMBAI
+CLICK2WASH SOUTH EAST
+EXPERT RAJARAJESHWARI NAGAR
+WARDROBE CDC - NEW FRIENDS COLONY
+FOUR SEASONS CDC - NEW FRIENDS COLONY
+EXPERT EAST
+EXPERT KORAMANGALA
+WARDROBE CDC- N R COLONY
+WARDROBE CDC - JB NAGAR
+CLICK2WASH  HUB - JAYANAGAR 5TH BLOCK
+FABRICSPA CDC - DLF SUNCITY GURGAON - HR
+FABRICSPA NORTH
+EXPERT BANNERGHATTA
+FABRICSPA MALLESHPALYA
+MSS - HITEX ROAD - TS
+DIAL MSS FACTORY OUTLET
+WARDROBE CDC - YOJNA VIHAR
+FABRICSPA SOUTH
+EXPERT SOUTH
+FABRICSPA CDC - KAMMANAHALLI
+SNOWAYS ELECTRONIC CITY
+MG ROAD
+WARDROBE CDC- HSR LAYOUT
+FABRICSPA - D2D - HSR LAYOUT
+FABRICSPA CDC - GANDIPET- HYD
+FABRICSPA BANNERGHATTA
+KURTAIN & KARPETS TALGHATPURA
+COC - TAJ VIVANTA BANGALORE
+WARDROBE CDC - SOUTH EXTENSION
+SNOWAYS KADUGODI
+WARDROBE CDC - VIKASPURI NEW
+SNOWAYS  - 7TH BLOCK  RING ROAD
+FABRICSPA - CDC - BANASHANKARI RING ROAD
+SNOWAYS THANISANDRA
+SPEC CDC DELHI
+DIAL MSS FACTORY OUTLET - INSTITUTION
+KURTAIN & KARPETS MALLESHPALYA
+FABRICSPA CDC  80 FEET ROAD KORAMANGALA BANGALORE
+SNOWAYS NAGARBHAVI
+WARDROBE CDC -SAKET
+FOUR SEASONS CDC - ASHOK VIHAR NEW
+SNOWAYS - J P NAGAR 7TH PHASE
+FABRICSPA CDC MANYATA TECH PARK
+FABRICSPA D2D SARJAPUR
+WARDROBE CDC - UP - LAUNDERETTE
+FABRICSPA D2D HYPERCITY
+DHULAI INSTITUTIONAL CDC
+FABRICSPA SOUTH EAST
+FABRICSPA SARJAPUR
+FABRICSPA WEST
+MSIT MSS - ITC GRAND - GOA
+EXPERT NR COLONY
+WARDROBE CDC- AREKERE
+FABRICSPA CDC -SHIVALIK ROAD
+FOUR SEASONS CDC - ASHOK VIHAR
+MUMBAI INSTITUTIONAL CDC-NVAI MAUMBAI
+FABRICSPA CDC - M3M URBANA - HR
+KURTAINZ & KARPETZ NORTH
+FABRICSPA RAJARAJESHWARI NAGAR
+FABRICSPA CDC - VASANT VIHAR - DEL
+WARDROBE CDC -KAROLBAGH
+WARDROBE CDC - ADITYA CITYCENTRE
+CLICK2WASH MARATHAHALLI
+CLICK2WASH RAJARAJESHWARI NAGAR
+EXPERT ELECTRONIC CITY
+SNOWAYS KR PURAM
+CLICK2WASH  HUB - YELAHANKA
+SNOWAYS CDC - MANTRI BG ROAD
+FOUR SEASONS CDC - VASANT NAGAR
+KURTAIN & KARPETS RAJARAJESHWARI NAGAR
+FABRICSPA MSS - NAVI MUMBAI
+DODDABALLAPURA  - UNIT 1  (MSS)
+FACTORY OUTLET - DODDABALLAPURA
+WARDROBE CDC - DEFENSE COLONY
+FABRICSPA CDC - SIDDHARTHA NAGAR- MYS
+SNOWAYS - KORAMANGALA 6TH BLOCK
+EXPERT SHANTHI NAGAR
+FABRICSPA GANGAMA CIRCLE
+SNOWAYS - N R COLONY
+SNOWAYS SOUTH
+CLICK2WASH  HUB - KUNDANAHALLI
+FABRICSPA D2D YELAHANKA
+CENTRAL LINEN PARK PRIVATE LIMITED
+WARDROBE CDC - SECTOR 40 GURGAON
+FABRICSPA CDC - SRI RAM ARCADE  KADUGODI
+SNOWAYS SARJAPUR
+KURTAIN & KARPETS KR PURAM
+KURTAINZ & KARPETZ WEST
+FOUR SEASONS CDC - VASANT NAGAR NEW
+EXPERT KADUGODI
+EXPERT MALLESHWARAM
+FABRICSPA CDC KODAMBAKKAM - CHENNAI
+FABRICSPA CDC - CARTER ROAD- BANDRA - MUMBAI
+FABRIC SPA CDC - THE EMBASSY ALI ASKAR ROAD
+JFSL RENTAL BANGALORE  CDC
+WARDROBE CDC -SAFDARJUNG ENCLAVE
+WARDROBE CDC - DIAL FACTORY OUTLET
+SNOWAYS CENTRAL
+FABRICSPA NR COLONY
+WARDROBE CDC - SUBHASH NAGAR JAIPUR
+FABRICSPA CDC - UDAI PARK DELHI
+CLICK2WASH FRAZOR TOWN
+WARDROBE CDC - MAYUR VIHAR
+EXPERT FRAZOR TOWN
+WARDROBE CDC - SHALIMARBAGH
+FABRICSPA CDC - SOUTH MOTI BAGH
+FABRICSPA - D2D - UTTARAHALLI
+FABRICSPA D2D HSR 7TH SECTOR
+FOUR SEASONS CDC - GREATER KAILASH I
+SEWARI MSS - MUMBAI
+WARDROBE CDC - SECTOR 6, DWARAKA
+FABRICSPA - D2D - KAMMANAHALLI
+EXPERT TALGHATPURA
+SNOWAYS - RING ROAD (BR NO - 003)
+KURTAIN & KARPETS KORAMANGALA
+SNOWAYS SHANTHI NAGAR
+FABRICSPA KADUGODI
+CLICK2WASH  HUB - ANDHERI
+FABRICSPA D2D - ANNA NAGAR - CHE
+HICARE D2D - ANDHERI - MUMBAI
+FABRIC SPA CDC - SPENCERS KORAMANGA BANGALORE
+SNOWAYS - SHANTHINAGAR
+FABRICSPA CDC - DEFENSE COLONY - DEL
+SNOWAYS - YELAHANKA NEW TOWN (BR NO - 028)
+EXPERT GANGAMA CIRCLE
+WARDROBE CDC - HAUZ KHAS
+EXPERT CENTRAL
+EXPERT NORTH EAST
+FABRIC SPA CDC OLD AIRPORT ROAD (BRANCH 009)
+FABRICSPA CDC - KAPRA - HYD
+FABRICSPA CDC - CHURCH ROAD -JUHU - MUMBAI
+EXPERT SOUTH EAST
+WARDROBE CDC - RAJARAJESHWARI NAGAR
+WARDROBE CDC - SECTOR 15A NOIDA
+SNOWAYS MALLESHWARAM
+SNOWAYS - BTM 2ND STAGE (BR NO - 031)
+WARDROBE CDC - C R PARK
+FOUR SEASONS CDC - GREATER KAILASH II NEW
+CLICK2WASH CENTRAL
+FABRIC SPA CDC M G ROAD METRO STATION - F012
+SNOWAYS - D2D - KUNDANAHALLI
+FABRICSPA CDC - BAGMANE TECH PARK
+WARDROBE CDC - HR - LAUNDERETTE
+CLICK2WASH NORTH
+FABRICSPA NAGARBHAVI
+MSS - ITC MAURYA - DL
+FOUR SEASONS CDC - DLF GURGAON
+WARDROBE CDC - INDIRAPURAM
+MUMBAI RAILWAYS
+WARDROBE CDC - MODEL TOWN
+EXPERT WEST
+CLICK2WASH EAST
+FABRICSPA CDC - PAI LAYOUT - BLR
+SNOWAYS - JAYANAGAR 8TH BLOCK
+FABRICSPA - D2D - RAJARAJESHWARI NAGAR
+KURTAIN & KARPETS SHANTHI NAGAR
+FABRICSPA CDC - KADUGODI
+FOUR SEASONS CDC - SOUTH CITY
+RAVET MSS - PUNE
+CLICK2WASH NAGARBHAVI
+FABRICSPA ELECTRONIC CITY
+MSS - WHITEFOX NOIDA
+WARDROBE CDC - DWARKA SECTOR-6
+FABRICSPA KORAMANGALA
+FABRICSPA CDC - JAYANAGAR 4th T BLOCK
+CLICK2WASH ELECTRONIC CITY
+COM - TAJ VIVANTA BANGALORE
+HCMSS2 - HOMECLEANING -  DELHI
+FABRICSPA CDC - JIGINI - BLR
+KURTAIN & KARPETS KADUGODI
+KURTAIN & KARPETS NAGARBHAVI
+WARDROBE CDC - VASANT VIHAR
+SNOWAYS NR COLONY
+FABRICSPA MSS ¿ SRIPERAMBADUR - CHENNAI
+FABRICSPA CDC - NEAPENSEA ROAD - MUMBAI
+WARDROBE CDC - PREET VIHAR
+WARDROBE CDC -GREATER KAILASH CO
+FOUR SEASONS CDC - SOUTH CITY - II ARCADIA
+FABRICSPA CDC - GREATER KAILASH 2 - DEL
+FACTORY OUTLET - KOPARKHAIRANE - NAVI MUMBAI
+FABRICSPA CENTRAL
+EXPERT NAGARBHAVI
+EXPERT CDC MALLESHWARAM

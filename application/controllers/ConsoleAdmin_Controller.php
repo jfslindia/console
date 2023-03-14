@@ -1988,7 +1988,8 @@ class ConsoleAdmin_Controller extends CI_Controller
 							'Password' => '',
 							'CreatedBy' => ADMIN_USERNAME,
 							'store_access_limit' => $dcr_user_store_access,
-							'is_active' => 1
+							'is_active' => 1,
+							'IsDeleted' => 0
 						);
 					}else{
 						$dcr_user = array(
@@ -1999,12 +2000,14 @@ class ConsoleAdmin_Controller extends CI_Controller
 							'Password' => '',
 							'CreatedBy' => ADMIN_USERNAME,
 							'store_access_limit' => $dcr_user_store_access,
-							'is_active' => 1
+							'is_active' => 1,
+							'IsDeleted' => 0
 						);
 					}
 				}else{
 					$dcr_user = array(
-						'CreatedBy' => ADMIN_USERNAME
+						'CreatedBy' => ADMIN_USERNAME,
+						'IsDeleted' => 0
 					);
 				}
 				if ($mode == 'add') {
