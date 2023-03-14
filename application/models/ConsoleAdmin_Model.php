@@ -882,9 +882,9 @@ class ConsoleAdmin_Model extends CI_Model
      * @param $brand_code
      * @return mixed
      */
-    public function get_stores_sp($city_code)
+	public function get_stores_sp($city_code,$brand_code)
     {
-        $query = $this->db->query("EXEC " . LOCAL_DB . ".dbo.GetBranchDataForCityForDCR @CityCode ='" . $city_code . "', @BrandCode='PCT0000001'")->result_array();
+        $query = $this->db->query("EXEC " . LOCAL_DB . ".dbo.GetBranchDataForCityForDCR @CityCode ='" . $city_code . "', @BrandCode='" .$brand_code ."'")->result_array();
         return $query;
     }
 	/**

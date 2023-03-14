@@ -2245,7 +2245,23 @@ class ConsoleAdmin_Controller extends CI_Controller
 	{
 		$request = $this->input->post();
 		$city_code = $request['city_code'];
-		$stores = $this->ConsoleAdmin_Model->get_stores_sp($city_code);
+		$brand_code = array(
+			"PCT0000001", //fabricspa brandcode
+			"PCT0000002", //snoways
+			"PCT0000007",//expert
+			"PCT0000014" //click2wash
+		);
+		$stores = array();
+		for($i=0;$i<sizeof($brand_code);$i++){
+			$branches = $this->ConsoleAdmin_Model->get_stores_sp($city_code,$brand_code[$i]);
+			$size = sizeof($stores);
+			if(sizeof($branches) > 0){
+				for($j=0;$j<sizeof($branches);$j++){
+					$stores[$size] = $branches[$j];
+					$size++;
+				}
+			}
+		}
 		$active_stores = array();
 		$j = 0;
 		$inactive_stores = array();
